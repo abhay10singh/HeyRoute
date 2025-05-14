@@ -1,5 +1,5 @@
 'use client';
-
+require('dotenv').config();
 import type { ReactNode } from 'react';
 import { APIProvider } from '@vis.gl/react-google-maps';
 

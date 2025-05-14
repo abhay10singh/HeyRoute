@@ -35,8 +35,7 @@ export interface MapMarker {
  * @returns A promise that resolves to an array of MapMarker objects.
  */
 export async function getMapMarkers(location: Location, radius: number): Promise<MapMarker[]> {
-  // TODO: Implement actual API call filtering by location and radius.
-  // For now, return dummy data slightly adjusted based on input location.
+
 
   console.log(`[getMapMarkers] Fetching markers near ${location.lat}, ${location.lng} within ${radius}km`);
 

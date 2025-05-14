@@ -1,5 +1,5 @@
 'use client';
-
+require('dotenv').config();
 import { Map as GoogleMap, AdvancedMarker, Pin, InfoWindow, useMap, useApiIsLoaded } from '@vis.gl/react-google-maps';
 import { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';

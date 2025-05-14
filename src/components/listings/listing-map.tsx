@@ -1,5 +1,5 @@
 'use client';
-
+require('dotenv').config();
 import { Map, AdvancedMarker, Pin } from '@vis.gl/react-google-maps';
 
 interface ListingMapProps {
