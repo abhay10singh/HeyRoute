@@ -58,7 +58,7 @@ export default function SignupPage() {
     },
   });
 
-  // Placeholder signup function - replace with actual authentication logic
+ 
   const onSubmit = async (data: SignupFormValues) => {
     setIsLoading(true);
     console.log('Signup attempt with:', { email: data.email }); // Don't log password
@@ -66,11 +66,9 @@ export default function SignupPage() {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
 
-    // In a real app, you would call your auth service here
-    // For example: const { user, error } = await signUpWithEmail(data.email, data.password);
+  
 
-    // Simulate successful signup for now
-    const signupSuccess = true; // Change this to false to test error case
+    const signupSuccess = true;
 
     setIsLoading(false);
 
@@ -79,13 +77,13 @@ export default function SignupPage() {
             title: 'Signup Successful',
             description: 'Welcome! Your account has been created.',
         });
-        // Redirect to login page or dashboard after successful signup
-        router.push('/login'); // Often redirect to login after signup
+      
+        router.push('/login'); 
     } else {
          toast({
             variant: 'destructive',
             title: 'Signup Failed',
-            description: 'Could not create account. Please try again later.', // Or specific error like 'Email already exists'
+            description: 'Could not create account. Please try again later.', 
         });
     }
   };
@@ -175,24 +173,7 @@ export default function SignupPage() {
                 </Link>
               </Button>
             </div>
-            {/* Optional: Add link to terms/privacy */}
-            {/* <p className="mt-4 px-8 text-center text-xs text-muted-foreground">
-                By clicking continue, you agree to our{' '}
-                <Link
-                    href="/terms"
-                    className="underline underline-offset-4 hover:text-primary"
-                >
-                    Terms of Service
-                </Link>{' '}
-                and{' '}
-                <Link
-                    href="/privacy"
-                    className="underline underline-offset-4 hover:text-primary"
-                >
-                    Privacy Policy
-                </Link>
-                .
-            </p> */}
+           
         </CardFooter>
       </Card>
     </div>
