@@ -57,11 +57,8 @@ export default function LoginPage() {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
 
-    // In a real app, you would call your auth service here
-    // For example: const { user, error } = await signInWithEmail(data.email, data.password);
-
-    // Simulate successful login for now
-    const loginSuccess = true; // Change this to false to test error case
+  
+    const loginSuccess = true; 
 
     setIsLoading(false);
 
@@ -70,7 +67,7 @@ export default function LoginPage() {
             title: 'Login Successful',
             description: 'Welcome back!',
         });
-        // Redirect to dashboard or home page after successful login
+    
         router.push('/');
     } else {
          toast({
@@ -78,7 +75,7 @@ export default function LoginPage() {
             title: 'Login Failed',
             description: 'Invalid email or password. Please try again.',
         });
-        // Optionally clear password field or handle error state
+      
          form.resetField('password');
     }
 
@@ -152,7 +149,7 @@ export default function LoginPage() {
             </div>
            <div className="mt-2 text-center">
                 <Button variant="link" asChild className="p-0 h-auto text-xs">
-                    <Link href="/forgot-password"> {/* TODO: Create forgot password page */}
+                    <Link href="/forgot-password"> {/* Reminder - Create forgot password page */}
                         Forgot password?
                     </Link>
                 </Button>
