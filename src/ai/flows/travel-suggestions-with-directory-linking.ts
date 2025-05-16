@@ -1,12 +1,6 @@
 
 'use server';
-/**
- * @fileOverview A travel suggestion AI agent that links to the directory, powered by Gemini.
- *
- * - getTravelSuggestionsWithDirectoryLinking - A function that handles the travel suggestion process.
- * - TravelSuggestionsWithDirectoryLinkingInput - The input type for the getTravelSuggestionsWithDirectoryLinking function.
- * - TravelSuggestionsWithDirectoryLinkingOutput - The return type for the getTravelSuggestionsWithDirectoryLinking function.
- */
+
 
 import {ai} from '@/ai/ai-instance';
 import {z} from 'genkit';
@@ -58,8 +52,7 @@ const getNearbyPlaces = ai.defineTool({
       })
       .describe('The current location of the user.'),
     radius: z.number().min(1).max(50).default(10).describe('The search radius around the location in kilometers (default 10km, max 50km).'),
-     // Optional: Add category filtering if needed
-     // category: z.enum(['hotel', 'restaurant', 'attraction']).optional().describe('Filter by place category.'),
+
   }),
   outputSchema: z.array(z.string().describe('The name of a nearby place.')),
 },
@@ -75,10 +68,10 @@ async input => {
 const prompt = ai.definePrompt({
   name: 'travelSuggestionsWithDirectoryLinkingPrompt',
   input: {
-    schema: TravelSuggestionsWithDirectoryLinkingInputSchema, // Use the defined schema
+    schema: TravelSuggestionsWithDirectoryLinkingInputSchema,
   },
   output: {
-    schema: TravelSuggestionsWithDirectoryLinkingOutputSchema, // Use the defined schema
+    schema: TravelSuggestionsWithDirectoryLinkingOutputSchema,
   },
   tools: [getNearbyPlaces],
   prompt: `You are HeyRoute, a friendly and insightful travel assistant chatbot powered by Google Gemini.
