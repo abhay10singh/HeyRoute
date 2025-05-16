@@ -1,24 +1,13 @@
 
-/**
- * Represents a geographical location with latitude and longitude coordinates.
- */
+
 export interface Location {
-  /**
-   * The latitude of the location.
-   */
+
   lat: number;
-  /**
-   * The longitude of the location.
-   */
+
   lng: number;
 }
 
-/**
- * Asynchronously retrieves the user's current location using the browser's Geolocation API.
- *
- * @returns A promise that resolves to a Location object containing latitude and longitude.
- * @throws An error if geolocation is not supported or the user denies permission.
- */
+
 export function getCurrentLocation(): Promise<Location> {
   return new Promise((resolve, reject) => {
     if (typeof window !== 'undefined' && 'geolocation' in navigator) {
@@ -42,13 +31,13 @@ export function getCurrentLocation(): Promise<Location> {
               break;
             default:
                reject(new Error("An unknown error occurred while retrieving location."));
-               break; // Added break statement
+               break; 
           }
         },
          {
-             enableHighAccuracy: false, // Lower accuracy is often faster and sufficient
-             timeout: 10000, // 10 seconds timeout
-             maximumAge: 60000 // Allow cached position up to 1 minute old
+             enableHighAccuracy: false, 
+             timeout: 10000,
+             maximumAge: 60000 
          }
       );
     } else {
