@@ -105,7 +105,7 @@ export default function Header() {
           </Link>
         </nav>
         <div className="flex items-center gap-2">
-           {/* TODO: Add real authentication state handling */}
+           {/*Yet have to Add real authentication state handling */}
           <Button variant="outline" size="sm" asChild>
              <Link href="/login">
                <LogIn className="mr-1 h-4 w-4" /> Login
@@ -116,7 +116,7 @@ export default function Header() {
                 <UserPlus className="mr-1 h-4 w-4" /> Sign Up
              </Link>
            </Button>
-           {/* Mobile Menu Trigger - TODO: Implement Sheet component */}
+           {/* Mobile Menu Trigger - Still have to Implement Sheet component */}
            {/* <Button variant="ghost" size="icon" className="md:hidden">
              <Menu className="h-5 w-5" />
              <span className="sr-only">Toggle Menu</span>
