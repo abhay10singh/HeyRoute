@@ -28,7 +28,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                 </blockquote>
                 <div className="flex items-center gap-3 pt-4">
                   <Avatar>
-                    {/* Placeholder image or actual avatar */}
+                    {/* I have to yet put image or actual avatar */}
                     <AvatarImage src={testimonial.avatarUrl || `https://avatar.vercel.sh/${testimonial.author.replace(' ','')}.png`} alt={testimonial.author} />
                     <AvatarFallback>{testimonial.author.charAt(0)}</AvatarFallback>
                   </Avatar>
