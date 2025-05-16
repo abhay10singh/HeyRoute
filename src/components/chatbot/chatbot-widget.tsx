@@ -15,9 +15,9 @@ import { getCurrentLocation, Location } from '@/services/geo-location'; // Impor
 
 interface Message {
   id: string;
-  text: React.ReactNode; // Allow React nodes for links
+  text: React.ReactNode; 
   sender: 'user' | 'bot';
-  links?: string[]; // Store directory links
+  links?: string[]; 
 }
 
 export default function ChatbotWidget() {
@@ -30,12 +30,12 @@ export default function ChatbotWidget() {
    const { toast } = useToast();
 
   useEffect(() => {
-     // Fetch user location when component mounts or widget opens
+     
      const fetchLocation = async () => {
          try {
              const location = await getCurrentLocation();
              setUserLocation(location);
-             // Add initial bot message after location is fetched
+           
              setMessages([
                 { id: 'init', text: `Hello! I'm your HeyRoute assistant. How can I help you plan your trip today? I see you're near latitude ${location.lat.toFixed(4)}, longitude ${location.lng.toFixed(4)}.`, sender: 'bot' }
              ]);
@@ -100,10 +100,9 @@ export default function ChatbotWidget() {
              links: response.directoryLinks, // Store the links
          };
 
-         // Add link rendering logic here if needed immediately or handle in message display
+       
          if (response.directoryLinks && response.directoryLinks.length > 0) {
-            // Example: Append links visually to the message text
-            // In a real app, you might parse the suggestion text and smartly insert links
+          
              const linksNode = (
                  <div className="mt-2 space-y-1">
                      <p className="text-xs font-semibold text-muted-foreground">Relevant places nearby:</p>
@@ -122,7 +121,7 @@ export default function ChatbotWidget() {
                      </ul>
                  </div>
              );
-             botMessage.text = <> {response.suggestions} {linksNode} </>; // Combine suggestion and links
+             botMessage.text = <> {response.suggestions} {linksNode} </>;
          }
 
 
