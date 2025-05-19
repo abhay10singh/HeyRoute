@@ -27,7 +27,7 @@ response.cookies.set({
   sameSite: 'lax',
   path: '/',
   maxAge: 60 * 60 * 24 * 7,
-  domain: process.env.NODE_ENV === 'production' ? '.yourdomain.com' : undefined
+
 });
     return response;
   } catch (error) {
