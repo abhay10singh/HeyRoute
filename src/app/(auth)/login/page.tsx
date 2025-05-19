@@ -1,4 +1,4 @@
-
+// src/app/(auth)/login/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -50,36 +50,38 @@ export default function LoginPage() {
   });
 
   // Placeholder login function - replace with actual authentication logic
-  const onSubmit = async (data: LoginFormValues) => {
-    setIsLoading(true);
-    console.log('Login attempt with:', data);
+  // Inside onSubmit in src/app/(auth)/login/page.tsx
+// src/app/(auth)/login/page.tsx
+const onSubmit = async (data: LoginFormValues) => {
+  try {
+    // Correct endpoint to /api/auth/login
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include', // Required for cookies
+      body: JSON.stringify(data),
+    });
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
-  
-    const loginSuccess = true; 
-
-    setIsLoading(false);
-
-    if (loginSuccess) {
-        toast({
-            title: 'Login Successful',
-            description: 'Welcome back!',
-        });
-    
-        router.push('/');
+    if (res.ok) {
+      toast({ title: 'Login Successful', description: 'Welcome back!' });
+      window.location.href = '/'; // Full page reload to update state
     } else {
-         toast({
-            variant: 'destructive',
-            title: 'Login Failed',
-            description: 'Invalid email or password. Please try again.',
-        });
-      
-         form.resetField('password');
+      const error = await res.json();
+      throw new Error(error.error || 'Login failed');
     }
+  } catch (error: any) {
+    toast({
+      variant: 'default',
+      title: 'Login Failed',
+      description: error.message,
+    });
+    console.log(error);
+    form.resetField('password');
+  } finally {
+    setIsLoading(false);
+  }
+};
 
-  };
 
   return (
     <div className="flex justify-center items-center min-h-[calc(100vh-15rem)] py-12">
@@ -149,7 +151,7 @@ export default function LoginPage() {
             </div>
            <div className="mt-2 text-center">
                 <Button variant="link" asChild className="p-0 h-auto text-xs">
-                    <Link href="/forgot-password"> {/* Reminder - Create forgot password page */}
+                    <Link href="/forgot-password"> {/* reminder - Have to Create forgot password page */}
                         Forgot password?
                     </Link>
                 </Button>

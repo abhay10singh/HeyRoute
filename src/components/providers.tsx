@@ -2,9 +2,21 @@
 require('dotenv').config();
 import type { ReactNode } from 'react';
 import { APIProvider } from '@vis.gl/react-google-maps';
+import { UserProfile } from '@/lib/userService';
+import { createContext, useEffect, useState } from 'react';
 
-// Ensure the environment variable is correctly processed.
-// It should be prefixed with NEXT_PUBLIC_ to be available on the client-side.
+// Auth Context
+type AuthContextType = {
+  user: UserProfile | null;
+  setUser: (user: UserProfile | null) => void;
+};
+
+export const AuthContext = createContext<AuthContextType>({
+  user: null,
+  setUser: () => {},
+});
+
+// Google Maps configuration
 const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 if (!googleMapsApiKey) {
@@ -16,14 +28,56 @@ if (!googleMapsApiKey) {
 
 interface ProvidersProps {
   children: ReactNode;
+  initialUser?: UserProfile | null;
 }
 
-export default function Providers({ children }: ProvidersProps) {
-  // Only wrap with APIProvider if the key exists
-  if (googleMapsApiKey) {
-    return <APIProvider apiKey={googleMapsApiKey}>{children}</APIProvider>;
+export default function Providers({ children, initialUser }: ProvidersProps) {
+  // Auth state management
+  const [user, setUser] = useState<UserProfile | null>(initialUser || null);
+
+  // Session validation effect
+// components/providers.tsx
+useEffect(() => {
+  async function validateSession() {
+    try {
+      const res = await fetch('/api/user/me', {
+        credentials: 'include',
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      });
+     console.log(res); 
+      if (res.status === 401) {
+        document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+        throw new Error('Unauthorized');
+      }
+      
+      const userData = await res.json();
+      setUser(userData);
+    } catch {
+      setUser(null);
+    }
   }
 
-  // If no API key, render children without the provider
-  return <>{children}</>;
+  // Always validate session on client mount
+  validateSession();
+}, []);
+
+  // Create base provider with auth context
+  const BaseProviders = ({ children }: { children: ReactNode }) => (
+    <AuthContext.Provider value={{ user, setUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
+
+  // Wrap with APIProvider if API key exists
+  return (
+    <BaseProviders>
+      {googleMapsApiKey ? (
+        <APIProvider apiKey={googleMapsApiKey}>{children}</APIProvider>
+      ) : (
+        children
+      )}
+    </BaseProviders>
+  );
 }
