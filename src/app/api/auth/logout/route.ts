@@ -17,7 +17,7 @@ export async function POST() {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      domain: process.env.NODE_ENV === 'production' ? `.yourdomain.com` : 'localhost'
+
     });
 
     return response;
