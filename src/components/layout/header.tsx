@@ -122,7 +122,6 @@ if (!isMounted) return null;
             </>
           )}
         </div>
-         <ThemeToggleButton   variant = 'gif' url = "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnpwM2h0aDAzeHhnbHcxMDhkM3hoZTc0OTE3dmU1bXNoNHY2YXp3aCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/I6GC6WHpBCJJvI0IVh/giphy.gif"/>
       </div>
     </header>
   )
