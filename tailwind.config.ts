@@ -33,8 +33,8 @@ export default {
   				foreground: 'hsl(var(--muted-foreground))'
   			},
   			accent: {
-  				DEFAULT: 'hsl(var(--accent))',
-  				foreground: 'hsl(var(--accent-foreground))'
+  				DEFAULT: 'hsl(200 70% 60%)', // Blue accent
+  				foreground: 'hsl(0 0% 100%)' // White text
   			},
   			destructive: {
   				DEFAULT: 'hsl(var(--destructive))',
@@ -82,11 +82,27 @@ export default {
   				to: {
   					height: '0'
   				}
+  			},
+  			'spin-slow': {
+  				from: {
+  					transform: 'rotate(0deg)'
+  				},
+  				to: {
+  					transform: 'rotate(360deg)'
+  				}
   			}
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
-  			'accordion-up': 'accordion-up 0.2s ease-out'
+  			'accordion-up': 'accordion-up 0.2s ease-out',
+  			'spin-slow': 'spin-slow 3s linear infinite'
+  		},
+  		backgroundSize: {
+  			'size-200': '200% 200%',
+  		},
+  		backgroundPosition: {
+  			'pos-0': '0% 0%',
+  			'pos-100': '100% 100%',
   		}
   	}
   },

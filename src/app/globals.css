@@ -55,7 +55,7 @@ body {
   }
 
   .dark {
-    --background: 210 40% 9%; /* Dark Blue/Black */
+    --background: 210 50% 4%; /* Dark Blue/Black */
     --foreground: 0 0% 98%; /* White */
 
     --card: 210 40% 9%;

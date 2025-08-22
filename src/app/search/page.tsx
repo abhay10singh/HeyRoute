@@ -1,4 +1,4 @@
-'use client'; // This page requires client-side interactivity for filters and map toggling
+'use client';
 
 import type { ReactNode, SuspenseProps } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -12,23 +12,22 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Slider } from '@/components/ui/slider';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
-import { Map as MapIcon, List, Filter, Star, DollarSign, Search as SearchIcon } from 'lucide-react'; // Renamed Map to MapIcon to avoid conflict
+import { Map as MapIcon, List, Filter, Star, Search as SearchIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import SearchResultsMap from '@/components/search/search-results-map'; // Component for map view
+import SearchResultsMap from '@/components/search/search-results-map';
 import { Separator } from '@/components/ui/separator';
 
-// Define types for listings and filters
 interface ListingSearchResult {
   id: string;
   name: string;
   type: 'Hotel' | 'Restaurant' | 'Attraction';
   rating: number;
-  priceRange?: number; // e.g., 1-5 ($ to $$$$$)
+  priceRange?: number;
   imageUrl: string;
   location: {
-      addressSnippet: string; // Short address or neighborhood (e.g., "Midtown, NY", "Trastevere, Rome")
-      city?: string; // Add city for easier filtering simulation
+      addressSnippet: string;
+      city?: string;
       lat: number;
       lng: number;
   };
@@ -43,11 +42,9 @@ interface Filters {
     priceRange: [number, number];
 }
 
-// Fallback for Suspense
 function SearchPageFallback() {
   return (
     <div className="flex flex-col lg:flex-row gap-8">
-      {/* Filter Sidebar Skeleton */}
       <aside className="w-full lg:w-1/4 xl:w-1/5 space-y-6">
          <Skeleton className="h-12 w-full" />
          <Skeleton className="h-32 w-full" />
@@ -55,8 +52,6 @@ function SearchPageFallback() {
          <Skeleton className="h-20 w-full" />
          <Skeleton className="h-10 w-full" />
       </aside>
-
-      {/* Results Area Skeleton */}
       <div className="flex-1 space-y-6">
         <div className="flex justify-between items-center">
           <Skeleton className="h-8 w-48" />
@@ -91,17 +86,14 @@ function SearchResultsPageContent() {
     location: searchParams.get('loc') || '',
     category: [],
     minRating: 0,
-    priceRange: [1, 5], // Assuming price range is 1-5
+  priceRange: [1, 5],
   });
 
-   // TODO: Replace with actual API call based on filters
   useEffect(() => {
     const fetchResults = async () => {
       setIsLoading(true);
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Dummy data - filter this based on 'filters' state in a real app
       const allListings: ListingSearchResult[] = [
         {
           id: '1',
@@ -111,7 +103,7 @@ function SearchResultsPageContent() {
           priceRange: 1,
           imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/7e/Amber_Fort_Jaipur_01.jpg',
           location: { addressSnippet: 'Devisinghpura, Amer', city: 'Jaipur', lat: 26.9855, lng: 75.8513 },
-          briefDescription: 'A stunning Rajput‐Mughal hilltop fortress with ornate courtyards and panoramic Aravalli views.' // :contentReference[oaicite:0]{index=0}
+      briefDescription: 'A stunning Rajput‐Mughal hilltop fortress with ornate courtyards and panoramic Aravalli views.'
         },
         {
           id: '2',
@@ -131,7 +123,7 @@ function SearchResultsPageContent() {
           priceRange: 1,
           imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/da/Taj-Mahal.jpg',
           location: { addressSnippet: 'Taj Ganj', city: 'Agra', lat: 27.1751, lng: 78.0421 },
-          briefDescription: 'The white‐marble mausoleum of Shah Jahan—a UNESCO World Heritage and symbol of eternal love.' // :contentReference[oaicite:1]{index=1}
+      briefDescription: 'The white‐marble mausoleum of Shah Jahan—a UNESCO World Heritage and symbol of eternal love.'
         },
         {
           id: '4',
@@ -161,7 +153,7 @@ function SearchResultsPageContent() {
           priceRange: 1,
           imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/51/Golden_Temple_in_Amritsar.jpg',
           location: { addressSnippet: 'Golden Temple Rd', city: 'Amritsar', lat: 31.6200, lng: 74.8765 },
-          briefDescription: 'Sikhism’s holiest shrine—gold-clad sanctum, the sacred Amrit Sarovar, and free community meals.' // :contentReference[oaicite:2]{index=2}
+      briefDescription: 'Sikhism’s holiest shrine—gold-clad sanctum, the sacred Amrit Sarovar, and free community meals.'
         },
         {
           id: '7',
@@ -185,16 +177,8 @@ function SearchResultsPageContent() {
         },
       ];
       
-
-      // Basic filtering simulation (extend this significantly in a real app)
       const filteredResults = allListings.filter(listing => {
           const searchTermMatch = !filters.searchTerm || listing.name.toLowerCase().includes(filters.searchTerm.toLowerCase());
-
-          // **SIMULATED LOCATION FILTERING**
-          // In a real application, the backend API would handle location filtering,
-          // likely using geocoding for the text input and performing a database query
-          // (e.g., radius search around coordinates).
-          // This simulation checks if the input text matches the city or address snippet.
           const locationInputLower = filters.location.toLowerCase().trim();
           const locationMatch = !locationInputLower ||
                                 (listing.location.city && listing.location.city.toLowerCase().includes(locationInputLower)) ||
@@ -202,7 +186,7 @@ function SearchResultsPageContent() {
 
           const categoryMatch = filters.category.length === 0 || filters.category.includes(listing.type);
           const ratingMatch = listing.rating >= filters.minRating;
-          const priceMatch = listing.priceRange && filters.priceRange ? (listing.priceRange >= filters.priceRange[0] && listing.priceRange <= filters.priceRange[1]) : true; // Handle listings without priceRange
+      const priceMatch = listing.priceRange && filters.priceRange ? (listing.priceRange >= filters.priceRange[0] && listing.priceRange <= filters.priceRange[1]) : true;
 
           return searchTermMatch && locationMatch && categoryMatch && ratingMatch && priceMatch;
       });
@@ -213,7 +197,7 @@ function SearchResultsPageContent() {
     };
 
     fetchResults();
-  }, [filters]); // Re-fetch when filters change
+  }, [filters]);
 
   const handleFilterChange = (filterName: keyof Filters, value: any) => {
     setFilters(prev => ({ ...prev, [filterName]: value }));
@@ -228,22 +212,18 @@ function SearchResultsPageContent() {
         }));
     };
 
-    const handleApplyFilters = () => {
-        // Trigger fetchResults by dependency change (already happens)
-        // Or, if debouncing, trigger the fetch here.
-        console.log("Applying filters:", filters);
-    };
+  const handleApplyFilters = () => {
+    console.log("Applying filters:", filters);
+  };
 
 
   return (
     <div className="flex flex-col lg:flex-row gap-8">
-      {/* Filter Sidebar */}
       <aside className="w-full lg:w-1/4 xl:w-1/5 space-y-6 p-4 border rounded-lg shadow-sm bg-card sticky top-20 self-start">
         <h2 className="text-xl font-semibold flex items-center gap-2"><Filter className="w-5 h-5"/> Filters</h2>
 
         <Separator/>
 
-         {/* Search within results */}
         <div className="space-y-2">
             <Label htmlFor="search-term-filter">Search within results</Label>
             <div className="relative">
@@ -258,7 +238,6 @@ function SearchResultsPageContent() {
             </div>
         </div>
 
-        {/* Location filter */}
         <div className="space-y-2">
             <Label htmlFor="location-filter">Location</Label>
              <div className="relative">
@@ -277,7 +256,6 @@ function SearchResultsPageContent() {
 
         <Separator/>
 
-        {/* Category Filter */}
         <div className="space-y-2">
           <Label>Category</Label>
           <div className="space-y-1">
@@ -296,7 +274,6 @@ function SearchResultsPageContent() {
 
          <Separator/>
 
-        {/* Rating Filter */}
         <div className="space-y-2">
             <Label htmlFor="rating-filter">Minimum Rating</Label>
             <div className="flex items-center gap-2">
@@ -323,15 +300,14 @@ function SearchResultsPageContent() {
 
         <Separator/>
 
-        {/* Price Range Filter - Placeholder */}
         <div className="space-y-2">
-            <Label>Price Range (Example)</Label>
+      <Label>Price Range (Example)</Label>
              <div className="flex items-center justify-between text-sm text-muted-foreground">
-                 <span>$</span>
-                 <span>$$$$$</span>
+                 <span>₹</span>
+                 <span>₹₹₹₹₹</span>
              </div>
             <Slider
-                defaultValue={[1, 5]} // Default to full range
+        defaultValue={[1, 5]}
                 min={1}
                 max={5}
                 step={1}
@@ -340,17 +316,14 @@ function SearchResultsPageContent() {
                 className="my-2"
              />
              <div className="flex items-center justify-center text-sm font-medium">
-                 {'$'.repeat(filters.priceRange[0])} - {'$'.repeat(filters.priceRange[1])}
+                 {'₹'.repeat(filters.priceRange[0])} - {'₹'.repeat(filters.priceRange[1])}
              </div>
         </div>
 
         <Separator/>
 
-        {/* NOTE: Apply button doesn't do anything extra here as filtering happens onChange */}
-        {/* <Button onClick={handleApplyFilters} className="w-full">Apply Filters</Button> */}
       </aside>
 
-      {/* Results Area */}
       <div className="flex-1">
         <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
           <h1 className="text-2xl font-semibold">
@@ -378,7 +351,6 @@ function SearchResultsPageContent() {
         </div>
 
         {isLoading ? (
-           // Loading Skeleton for results list/map
            isMapView ? (
                 <Skeleton className="h-[600px] w-full rounded-lg" />
            ) : (
@@ -406,8 +378,7 @@ function SearchResultsPageContent() {
                     </div>
                  )}
             </div>
-        ) : (
-          // List View
+  ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {results.length > 0 ? results.map(listing => (
               <Card key={listing.id} className="overflow-hidden transition-shadow hover:shadow-lg flex flex-col">
@@ -427,11 +398,11 @@ function SearchResultsPageContent() {
                     <h3 className="text-lg font-semibold">
                          <Link href={`/listings/${listing.id}`} className="hover:text-primary">{listing.name}</Link>
                     </h3>
-                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                         <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
-                         <span>{listing.rating.toFixed(1)}</span>
-                         {listing.priceRange && <span className="ml-2 text-xs"><DollarSign className="inline h-3 w-3" />{'$'.repeat(listing.priceRange)}</span>}
-                    </div>
+        <div className="flex items-center gap-1 text-sm text-muted-foreground">
+          <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+          <span>{listing.rating.toFixed(1)}</span>
+          {listing.priceRange && <span className="ml-2 text-xs">{'₹'.repeat(listing.priceRange)}</span>}
+        </div>
                     <p className="text-sm text-muted-foreground flex items-center gap-1">
                         <MapIcon className="h-4 w-4 flex-shrink-0" /> {listing.location.addressSnippet}
                     </p>
@@ -453,8 +424,6 @@ function SearchResultsPageContent() {
   );
 }
 
-
-// Use Suspense to handle loading state triggered by searchParams
 export default function SearchPage() {
     return (
         <Suspense fallback={<SearchPageFallback />}>

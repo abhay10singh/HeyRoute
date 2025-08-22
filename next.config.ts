@@ -37,6 +37,13 @@ const nextConfig: NextConfig = {
         // allow all paths on gateway.tajhotels.com
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        // allow all paths on images.unsplash.com
+        pathname: '/**',
+      },
     ],
   },
 };

@@ -5,7 +5,7 @@ import { APIProvider } from '@vis.gl/react-google-maps';
 import { UserProfile } from '@/lib/userService';
 import { createContext, useEffect, useState } from 'react';
 
-// Auth Context
+
 type AuthContextType = {
   user: UserProfile | null;
   setUser: (user: UserProfile | null) => void;
@@ -16,7 +16,7 @@ export const AuthContext = createContext<AuthContextType>({
   setUser: () => {},
 });
 
-// Google Maps configuration
+
 const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 if (!googleMapsApiKey) {
@@ -32,11 +32,10 @@ interface ProvidersProps {
 }
 
 export default function Providers({ children, initialUser }: ProvidersProps) {
-  // Auth state management
+
   const [user, setUser] = useState<UserProfile | null>(initialUser || null);
 
-  // Session validation effect
-// components/providers.tsx
+
 useEffect(() => {
   async function validateSession() {
     try {
@@ -59,18 +58,18 @@ useEffect(() => {
     }
   }
 
-  // Always validate session on client mount
+
   validateSession();
 }, []);
 
-  // Create base provider with auth context
+
   const BaseProviders = ({ children }: { children: ReactNode }) => (
     <AuthContext.Provider value={{ user, setUser }}>
       {children}
     </AuthContext.Provider>
   );
 
-  // Wrap with APIProvider if API key exists
+
   return (
     <BaseProviders>
       {googleMapsApiKey ? (

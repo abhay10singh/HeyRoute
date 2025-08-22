@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useToast } from "@/hooks/use-toast";
 import { getTravelSuggestionsWithDirectoryLinking, TravelSuggestionsWithDirectoryLinkingInput } from '@/ai/flows/travel-suggestions-with-directory-linking'; // Import the server action
-import { getCurrentLocation, Location } from '@/services/geo-location'; // Import location service
+import { getCurrentLocation, Location } from '@/services/geo-location'; 
 
 
 interface Message {
@@ -55,7 +55,7 @@ export default function ChatbotWidget() {
      if (isOpen && !userLocation) {
          fetchLocation();
      }
-  }, [isOpen, userLocation, toast]); // Depend on isOpen and userLocation
+  }, [isOpen, userLocation, toast]); 
 
 
   // Auto-scroll to bottom
@@ -89,15 +89,15 @@ export default function ChatbotWidget() {
             query: input,
             location: userLocation,
         };
-        console.log("Sending to AI:", requestPayload); // Debugging
+        console.log("Sending to AI:", requestPayload); 
         const response = await getTravelSuggestionsWithDirectoryLinking(requestPayload);
-        console.log("Received from AI:", response); // Debugging
+        console.log("Received from AI:", response);
 
         const botMessage: Message = {
              id: (Date.now() + 1).toString(),
              text: response.suggestions,
              sender: 'bot',
-             links: response.directoryLinks, // Store the links
+             links: response.directoryLinks,
          };
 
        
@@ -108,7 +108,7 @@ export default function ChatbotWidget() {
                      <p className="text-xs font-semibold text-muted-foreground">Relevant places nearby:</p>
                      <ul className="list-none pl-0 space-y-1">
                          {response.directoryLinks.map((linkText, index) => {
-                             // Basic search link - replace with actual listing page link if possible
+ 
                              const searchLink = `/search?q=${encodeURIComponent(linkText)}&loc=${userLocation?.lat},${userLocation?.lng}`;
                              return (
                                  <li key={index} className="text-xs">

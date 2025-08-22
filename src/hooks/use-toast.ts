@@ -1,6 +1,5 @@
 "use client"
 
-// Inspired by react-hot-toast library
 import * as React from "react"
 
 import type {
@@ -16,6 +15,7 @@ type ToasterToast = ToastProps & {
   title?: React.ReactNode
   description?: React.ReactNode
   action?: ToastActionElement
+  variant?: "default" | "destructive" | "success" | "warning" | "info"
 }
 
 const actionTypes = {
@@ -93,8 +93,6 @@ export const reducer = (state: State, action: Action): State => {
     case "DISMISS_TOAST": {
       const { toastId } = action
 
-      // ! Side effects ! - This could be extracted into a dismissToast() action,
-      // but I'll keep it here for simplicity
       if (toastId) {
         addToRemoveQueue(toastId)
       } else {
@@ -171,6 +169,39 @@ function toast({ ...props }: Toast) {
   }
 }
 
+// Enhanced toast helper functions
+function success(title: string, description?: string) {
+  return toast({
+    variant: "success",
+    title,
+    description,
+  })
+}
+
+function error(title: string, description?: string) {
+  return toast({
+    variant: "destructive", 
+    title,
+    description,
+  })
+}
+
+function warning(title: string, description?: string) {
+  return toast({
+    variant: "warning",
+    title,
+    description,
+  })
+}
+
+function info(title: string, description?: string) {
+  return toast({
+    variant: "info",
+    title,
+    description,
+  })
+}
+
 function useToast() {
   const [state, setState] = React.useState<State>(memoryState)
 
@@ -187,6 +218,10 @@ function useToast() {
   return {
     ...state,
     toast,
+    success,
+    error, 
+    warning,
+    info,
     dismiss: (toastId?: string) => dispatch({ type: "DISMISS_TOAST", toastId }),
   }
 }

@@ -8,7 +8,7 @@ export async function POST() {
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
 
-    // Clear cookie with same attributes as login
+
     response.cookies.set({
       name: 'token',
       value: '',

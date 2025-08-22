@@ -49,22 +49,20 @@ export default function LoginPage() {
     },
   });
 
-  // Placeholder login function - replace with actual authentication logic
-  // Inside onSubmit in src/app/(auth)/login/page.tsx
-// src/app/(auth)/login/page.tsx
+
 const onSubmit = async (data: LoginFormValues) => {
   try {
-    // Correct endpoint to /api/auth/login
+
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include', // Required for cookies
+      credentials: 'include', 
       body: JSON.stringify(data),
     });
 
     if (res.ok) {
       toast({ title: 'Login Successful', description: 'Welcome back!' });
-      window.location.href = '/'; // Full page reload to update state
+      window.location.href = '/'; 
     } else {
       const error = await res.json();
       throw new Error(error.error || 'Login failed');
@@ -151,7 +149,7 @@ const onSubmit = async (data: LoginFormValues) => {
             </div>
            <div className="mt-2 text-center">
                 <Button variant="link" asChild className="p-0 h-auto text-xs">
-                    <Link href="/forgot-password"> {/* reminder - Have to Create forgot password page */}
+                    <Link href="/forgot-password"> 
                         Forgot password?
                     </Link>
                 </Button>

@@ -17,7 +17,7 @@ export async function fetchProfile(): Promise<UserProfile> {
     };
 
     if (typeof window === 'undefined') {
-      const headersList = headers();
+      const headersList = await headers();
       const host = headersList.get('host') || 'localhost:3000';
       const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
       url = `${protocol}://${host}/api/user/me`;
@@ -37,11 +37,16 @@ export async function fetchProfile(): Promise<UserProfile> {
       throw new Error('Not authenticated');
     }
     
-    if (!res.ok) throw new Error('Failed to fetch profile');
+    if (!res.ok) {
+      throw new Error('Failed to fetch profile');
+    }
 
     return await res.json();
   } catch (error) {
-    console.error('Fetch profile error:', error);
+    // Only log errors that aren't authentication related
+    if (error instanceof Error && error.message !== 'Not authenticated') {
+      console.error('Fetch profile error:', error);
+    }
     throw error;
   }
 }

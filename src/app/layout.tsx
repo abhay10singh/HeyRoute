@@ -1,6 +1,7 @@
 
 // src/app/layout.jsx
 import type { Metadata } from 'next';
+import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
@@ -25,20 +26,27 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   let user = null;
   try {
     user = await fetchProfile();
-  } catch {
+  } catch (error) {
+    // User is not authenticated or API error - this is normal, no need to log
     user = null;
   }
-  console.log(user);
 
   return (
+    
     <html lang="en" suppressHydrationWarning>
-      <body
+      <body 
         className={cn(
           'min-h-screen bg-background font-sans antialiased flex flex-col',
           geistSans.variable,
           geistMono.variable
         )}
       >
+        <ThemeProvider
+      
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+          >
         <Providers initialUser={user}>
           <Header />
           <main className="flex-grow container mx-auto px-4 py-8">
@@ -47,6 +55,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <Footer />
           <Toaster />
         </Providers>
+          </ThemeProvider>
       </body>
     </html>
   );
